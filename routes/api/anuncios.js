@@ -28,11 +28,12 @@ router.get('/', async (req, res, next) => {
       filtro.age = age;
     }
 
-    const agentes = await Agente.lista(filtro, skip, limit, fields, sort);
+     const anuncios = await Anuncios.lista(filtro, skip, limit, fields, sort);
 
-    res.json({ results: agentes });
+    res.json({ results: anuncios });
 
   } catch (err) {
     next(err);
   }
 });
+module.exports = router;

@@ -5,7 +5,7 @@ const anunciosSchema = mongoose.Schema({
     venta: Boolean,
     precio: Number,
     foto: String,
-    tags: String
+    tags: [String]
 })
 
 anunciosSchema.statics.lista = function(filtro, skip, limit, fields, sort) {
