@@ -4,9 +4,9 @@ const { query, validationResult } = require('express-validator')
 
 const Anuncios = require('../../models/Anuncios')
 
-var app = express();
 
-router.get('/', async (req, res, next) => {
+
+router.get('/',[query('tags').isString().isIn(["work", "lifestyle", "motor", "mobile"]).withMessage('must be work, lifestyle, motor and mobile')],  async (req, res, next) => {
   try {
 
     // filtros
@@ -29,13 +29,13 @@ router.get('/', async (req, res, next) => {
       filtro.name = name;
     }
 
-    if (age) {
-      filtro.age = age;
+    if (tags) {
+      filtro.tags = tags;
     }
 
     const anuncios = await Anuncios.lista(filtro, skip, limit, fields, sort);
     
-    app.locals.anuncios = anuncios;
+
 
     res.json({ results: anuncios });
 
@@ -43,5 +43,35 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+router.get('/:name', async (req, res, next) => {
+  try {
+
+    const name = req.params.name;
+
+    const anuncios = await anuncios.lista({name: name});
+
+    res.json({ result: anuncios });
+
+  } catch (error) {
+    next(error);
+  }
+});
+  router.post('/', async (req, res, next) => {
+  try {
+    const anuncioData = req.body;
+
+    // instanciamos objeto en memoria
+    const anuncios = new Anuncios(anuncioData);
+
+    console.log(`nombre del anuncio es ${anuncios.name}, si se busca o se vende es ${anuncios.venta},el precio es ${anuncios.precio}, nombre de la foto ${anuncios.foto}, las tiquetas son ${anuncios.tags}`);
+
+    // lo guardamos en la base de datos
+    const anuncioGuardado = await anuncios.save();
+
+    res.json({ result: anuncioGuardado });
+
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
-module.exports = app;

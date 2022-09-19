@@ -26,10 +26,10 @@ async function initAnuncios() {
     const inserted = await Anuncios.insertMany(
         [
             {
-                nombre: "Bicicleta", venta: true, precio: 230.15, foto: "bici.jpg", tags: ["lifestyle", "motor"]
+                name: "Bicicleta", venta: true, precio: 230.15, foto: "bici.jpg", tags: ["lifestyle", "motor"]
             },
             {
-                nombre: "iPhone 3GS", venta: false, precio: 50.00, foto: "iphone.png", tags: ["lifestyle", "mobile"]
+                name: "iPhone 3GS", venta: false, precio: 50.00, foto: "iphone.png", tags: ["lifestyle", "mobile"]
             },
         ]
     )
